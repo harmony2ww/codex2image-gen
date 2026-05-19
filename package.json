@@ -1,0 +1,20 @@
+{
+  "name": "codex2image-gen",
+  "version": "0.1.0",
+  "description": "OpenAI-compatible image API proxy on top of local Codex CLI ($imagegen)",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node codex-openai-proxy.mjs",
+    "codex-proxy": "node codex-openai-proxy.mjs"
+  },
+  "keywords": [
+    "codex",
+    "openai",
+    "image-generation",
+    "proxy"
+  ]
+}

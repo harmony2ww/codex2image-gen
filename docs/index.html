@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="docTitle">codex2image-gen API Docs</title>
+    <style>
+      :root {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #132238;
+        background: #f5f7fb;
+        --accent: #145dff;
+        --muted: #5a6b85;
+        --border: #dfe6f2;
+        --panel: #fff;
+      }
+      body { margin: 0; }
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .lang-switch {
+        display: inline-flex;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--panel);
+      }
+      .lang-switch button {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        padding: 7px 14px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .lang-switch button:hover { color: var(--accent); }
+      .lang-switch button.active {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+      }
+      .wrap { max-width: 920px; margin: 0 auto; padding: 28px 24px 56px; }
+      h1 { margin: 0 0 8px; font-size: 28px; }
+      h2 { margin: 32px 0 12px; font-size: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+      h3 { margin: 20px 0 8px; font-size: 16px; }
+      .lead { color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+      .nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+      .nav a {
+        padding: 8px 14px; border-radius: 10px; background: var(--panel);
+        border: 1px solid var(--border); color: var(--accent); text-decoration: none; font-size: 14px;
+      }
+      .nav a:hover { border-color: var(--accent); }
+      .panel {
+        background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+        padding: 16px 18px; margin-bottom: 16px;
+      }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+      th, td { padding: 9px 10px; border-bottom: 1px solid #eef2f8; text-align: left; vertical-align: top; }
+      th { background: #f6f8fc; color: var(--muted); font-weight: 600; }
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+      code { background: #eef3fb; padding: 2px 6px; border-radius: 6px; }
+      pre {
+        background: #0f172a; color: #d6e2ff; padding: 14px; border-radius: 12px;
+        overflow: auto; line-height: 1.5;
+      }
+      .shot {
+        background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+        padding: 12px; margin-bottom: 16px;
+      }
+      .shot img { width: 100%; height: auto; border-radius: 10px; display: block; }
+      .shot figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+      ul { line-height: 1.65; color: #24324d; }
+      .footnote { margin: 8px 0 0; font-size: 0.9rem; color: #666; line-height: 1.55; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap" id="docsRoot">
+      <div class="topbar">
+        <h1 data-i18n="pageTitle">codex2image-gen API</h1>
+        <div class="lang-switch" id="langSwitch" role="group" data-i18n-aria="langSwitchAria">
+          <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+
+      <p class="lead" data-i18n="lead"></p>
+
+      <div class="nav">
+        <a href="/logs" data-i18n="navLogs">Logs</a>
+        <a href="/health" data-i18n="navHealth">Health</a>
+        <a href="/v1/models" data-i18n="navModels">Models</a>
+        <a href="/docs/API.zh-CN.md" data-i18n="navApiZh">API (中文)</a>
+        <a href="/docs/codex-openai-proxy.md" data-i18n="navApiEn">API (English)</a>
+      </div>
+
+      <h2 data-i18n="h2Auth">Authentication</h2>
+      <div class="panel">
+        <p class="lead" style="margin:0 0 12px" data-i18n="authLead1"></p>
+        <pre>PROXY_API_KEY=your-strong-random-token
+Authorization: Bearer your-strong-random-token</pre>
+        <p class="lead" style="margin:12px 0 0" data-i18n="authLead2"></p>
+      </div>
+
+      <h2 data-i18n="h2Endpoints">Endpoints</h2>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="thMethod">Method</th>
+            <th data-i18n="thPath">Path</th>
+            <th data-i18n="thAuth">Auth</th>
+            <th data-i18n="thDesc">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GET</td><td><code>/health</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowHealth">Service status and paths</td>
+          </tr>
+          <tr>
+            <td>GET</td><td><code>/v1/models</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowModels">gpt-image-2, gpt-image-1, dall-e-3, codex-cli, …</td>
+          </tr>
+          <tr>
+            <td>POST</td><td><code>/v1/images/generations</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowGen">Text-to-image; prompt required; b64_json only</td>
+          </tr>
+          <tr>
+            <td>POST</td><td><code>/v1/images/edits</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowEdits">1–16 reference images</td>
+          </tr>
+          <tr>
+            <td>POST</td><td><code>/v1/chat/completions</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowChat">messages[] required; no stream</td>
+          </tr>
+          <tr>
+            <td>POST</td><td><code>/v1/responses</code></td>
+            <td data-i18n="authNo">no*</td>
+            <td data-i18n="rowResponses">input required; optional instructions</td>
+          </tr>
+          <tr>
+            <td>GET</td><td><code>/api/logs/days</code></td>
+            <td data-i18n="authLocal">localhost*</td>
+            <td data-i18n="rowLogsDays">Per-day stats</td>
+          </tr>
+          <tr>
+            <td>GET</td><td><code>/api/logs?day=&amp;limit=</code></td>
+            <td data-i18n="authLocal">localhost*</td>
+            <td data-i18n="rowLogs">Log records by day</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="footnote" data-i18n="footnoteAuth"></p>
+
+      <h2>POST /v1/images/generations</h2>
+      <h3 data-i18n="h3Fields">Request body</h3>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="thField">Field</th>
+            <th data-i18n="thRequired">Required</th>
+            <th data-i18n="thFieldDesc">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>prompt</code></td><td data-i18n="yes">yes</td><td data-i18n="fPrompt">Scene description</td></tr>
+          <tr><td><code>model</code></td><td data-i18n="no">no</td><td data-i18n="fModel">Default gpt-image-2; any id maps to same $imagegen</td></tr>
+          <tr><td><code>n</code></td><td data-i18n="no">no</td><td data-i18n="fN">1–10, default 1</td></tr>
+          <tr><td><code>size</code></td><td data-i18n="no">no</td><td data-i18n="fSize">e.g. 1536x1024</td></tr>
+          <tr><td><code>output_format</code></td><td data-i18n="no">no</td><td data-i18n="fFormat">png / jpeg / webp</td></tr>
+          <tr><td><code>response_format</code></td><td data-i18n="no">no</td><td data-i18n="fResponse">b64_json only</td></tr>
+          <tr><td><code>cwd</code> / <code>sandbox</code></td><td data-i18n="no">no</td><td data-i18n="fCwd">Codex execution environment</td></tr>
+        </tbody>
+      </table>
+      <pre>curl http://127.0.0.1:4100/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -d '{"model":"gpt-image-2","prompt":"...","size":"1536x1024","n":1,"response_format":"b64_json"}'</pre>
+
+      <h2>POST /v1/images/edits</h2>
+      <p class="lead" data-i18n="editsLead"></p>
+      <ul>
+        <li><code>"image": "/abs/path.png"</code></li>
+        <li><code>"images": ["/a.png", "https://..."]</code></li>
+        <li><code>"input_images": [{"path":"/a.png"},{"image_url":"https://..."}]</code></li>
+      </ul>
+      <pre>curl http://127.0.0.1:4100/v1/images/edits \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"...","images":["/abs/ref.png"],"n":1,"response_format":"b64_json"}'</pre>
+
+      <h2 data-i18n="h2Response">Responses &amp; errors</h2>
+      <div class="panel">
+        <p data-i18n="respSuccess"></p>
+        <p data-i18n="respFail"></p>
+        <p data-i18n="respTimeout"></p>
+      </div>
+
+      <h2 data-i18n="h2LogsApi">Logs API</h2>
+      <pre>GET /api/logs/days
+GET /api/logs?day=2026-05-19&amp;limit=500</pre>
+      <p class="lead" data-i18n="logsPathLead"></p>
+
+      <h2 data-i18n="h2Screenshots">Screenshots</h2>
+      <figure class="shot">
+        <img src="/docs/image.png" alt="" data-i18n-alt="shotEnAlt" loading="lazy" />
+        <figcaption data-i18n="shotEn"></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/docs/image-cn.png" alt="" data-i18n-alt="shotZhAlt" loading="lazy" />
+        <figcaption data-i18n="shotZh"></figcaption>
+      </figure>
+
+      <h2 data-i18n="h2Diff">Differences from OpenAI</h2>
+      <ul>
+        <li data-i18n="diff1"></li>
+        <li data-i18n="diff2"></li>
+        <li data-i18n="diff3"></li>
+      </ul>
+    </div>
+
+    <script>
+      const MESSAGES = {
+        en: {
+          docTitle: "codex2image-gen API Docs",
+          pageTitle: "codex2image-gen API",
+          lead:
+            "OpenAI-compatible HTTP proxy on top of a locally logged-in Codex CLI. Default base: http://127.0.0.1:4100 (4101 backup). Full parameter tables: API.zh-CN.md (Chinese) · codex-openai-proxy.md (English).",
+          navLogs: "Logs",
+          navHealth: "Health",
+          navModels: "Models",
+          navApiZh: "Full API (中文)",
+          navApiEn: "Full guide (EN)",
+          langSwitchAria: "Language",
+          h2Auth: "Authentication",
+          authLead1:
+            "No API key by default. To expose beyond localhost, set PROXY_API_KEY in .env and restart:",
+          authLead2:
+            "When PROXY_API_KEY is set, these paths stay token-free from 127.0.0.1 only: /health, /, /logs, /docs/*, /api/logs*, /logs-assets/*",
+          h2Endpoints: "Endpoints",
+          thMethod: "Method",
+          thPath: "Path",
+          thAuth: "Auth",
+          thDesc: "Description",
+          authNo: "no*",
+          authLocal: "localhost*",
+          rowHealth: "Service status, Codex paths, defaults",
+          rowModels: "gpt-image-2, gpt-image-1, dall-e-3, codex-cli, …",
+          rowGen: "Text-to-image; prompt required; response_format b64_json only",
+          rowEdits: "Image edit; 1–16 reference images (image / images / input_images)",
+          rowChat: "messages[] required; stream: true not supported",
+          rowResponses: "input required; optional instructions",
+          rowLogsDays: "Per-day total / success / failed",
+          rowLogs: "Records by day=YYYY-MM-DD; limit up to 5000",
+          footnoteAuth:
+            "* No token by default. With PROXY_API_KEY in .env, API routes need Bearer; log paths remain localhost-only without token.",
+          h3Fields: "Request body",
+          thField: "Field",
+          thRequired: "Required",
+          thFieldDesc: "Description",
+          yes: "yes",
+          no: "no",
+          fPrompt: "Scene description",
+          fModel: "Default gpt-image-2; any model id uses the same Codex $imagegen backend",
+          fN: "1–10, default 1",
+          fSize: "e.g. 1536x1024",
+          fFormat: "png / jpeg / webp",
+          fResponse: "b64_json only",
+          fCwd: "Passed to Codex execution environment",
+          editsLead:
+            "Same fields as generations, plus at least one reference image (absolute path, URL, or data URL):",
+          h2Response: "Responses & errors",
+          respSuccess:
+            "Image success: { \"created\": number, \"data\": [{ \"b64_json\": \"...\", \"revised_prompt\": null }] }",
+          respFail: "Failure: HTTP 4xx/5xx with error.message / error.type",
+          respTimeout: "Timing: a single image often takes minutes; proxy timeout defaults to 30 minutes.",
+          h2LogsApi: "Logs API",
+          logsPathLead:
+            "Archived images example: /logs-assets/2026-05-19/<request-id>/output-1.png",
+          h2Screenshots: "Screenshots",
+          shotEnAlt: "Log viewer (English)",
+          shotEn: 'Log viewer (EN) — open /logs',
+          shotZhAlt: "Log viewer (Chinese)",
+          shotZh: "Log viewer (中文) — open /logs",
+          h2Diff: "Differences from OpenAI",
+          diff1: "Uses a locally logged-in Codex CLI, not a cloud OpenAI API key.",
+          diff2: "Images return b64_json only; no url format.",
+          diff3: "No HTTP endpoint for account usage or remaining quota.",
+        },
+        zh: {
+          docTitle: "codex2image-gen API 文档",
+          pageTitle: "codex2image-gen API",
+          lead:
+            "基于本机 Codex CLI 的 OpenAI 兼容 HTTP 代理。默认基址：http://127.0.0.1:4100（4101 为备用端口）。完整参数表：API.zh-CN.md（中文）· codex-openai-proxy.md（英文）。",
+          navLogs: "日志查看",
+          navHealth: "健康检查",
+          navModels: "模型列表",
+          navApiZh: "完整 API（中文）",
+          navApiEn: "完整指南（英文）",
+          langSwitchAria: "语言",
+          h2Auth: "鉴权",
+          authLead1: "默认无需 API Key。对外暴露时，在项目目录 .env 中设置 PROXY_API_KEY 后重启：",
+          authLead2:
+            "已配置 PROXY_API_KEY 时，以下路径仍可从本机 127.0.0.1 免 token 访问：/health、/、/logs、/docs/*、/api/logs*、/logs-assets/*",
+          h2Endpoints: "端点",
+          thMethod: "方法",
+          thPath: "路径",
+          thAuth: "鉴权",
+          thDesc: "说明",
+          authNo: "否*",
+          authLocal: "本机*",
+          rowHealth: "服务状态、Codex 路径、默认值",
+          rowModels: "gpt-image-2、gpt-image-1、dall-e-3、codex-cli 等",
+          rowGen: "文生图；prompt 必填；response_format 仅 b64_json",
+          rowEdits: "图生图；参考图 1–16 张（image / images / input_images）",
+          rowChat: "messages[] 必填；不支持 stream: true",
+          rowResponses: "input 必填；可选 instructions",
+          rowLogsDays: "按日统计 total / success / failed",
+          rowLogs: "按 day=YYYY-MM-DD 查询；limit 最大 5000",
+          footnoteAuth:
+            "* 默认无需 token；在 .env 设置 PROXY_API_KEY 后，API 需 Bearer，日志类路径仍仅本机免鉴权。",
+          h3Fields: "请求体字段",
+          thField: "字段",
+          thRequired: "必填",
+          thFieldDesc: "说明",
+          yes: "是",
+          no: "否",
+          fPrompt: "画面描述",
+          fModel: "默认 gpt-image-2；任意 model id 均走同一 Codex $imagegen",
+          fN: "1–10，默认 1",
+          fSize: "如 1536x1024",
+          fFormat: "png / jpeg / webp",
+          fResponse: "仅 b64_json",
+          fCwd: "传给 Codex 执行环境",
+          editsLead:
+            "在 generations 字段基础上，须至少提供一张参考图（本地绝对路径、URL 或 data URL）：",
+          h2Response: "响应与错误",
+          respSuccess:
+            "图片成功：{ \"created\": number, \"data\": [{ \"b64_json\": \"...\", \"revised_prompt\": null }] }",
+          respFail: "失败：HTTP 4xx/5xx，含 error.message / error.type",
+          respTimeout: "耗时：单次生图常需数分钟；代理超时默认 30 分钟。",
+          h2LogsApi: "日志 API",
+          logsPathLead: "归档图片示例：/logs-assets/2026-05-19/<request-id>/output-1.png",
+          h2Screenshots: "截图",
+          shotEnAlt: "日志查看器（英文）",
+          shotEn: "日志查看器（英文）— 打开 /logs",
+          shotZhAlt: "日志查看器（中文）",
+          shotZh: "日志查看器（中文）— 打开 /logs",
+          h2Diff: "与 OpenAI 官方差异",
+          diff1: "依赖本机已登录的 Codex CLI，不是云端 OpenAI API Key。",
+          diff2: "图片仅返回 b64_json，无 url 格式。",
+          diff3: "无账户用量/剩余额度 HTTP 接口。",
+        },
+      };
+
+      const LOCALE_STORAGE_KEY = "codex2image-gen.docs.locale";
+
+      function detectBrowserLocale() {
+        const langs =
+          Array.isArray(navigator.languages) && navigator.languages.length
+            ? navigator.languages
+            : [navigator.language || "en"];
+        return langs.some((lang) => String(lang || "").toLowerCase().startsWith("zh")) ? "zh" : "en";
+      }
+
+      function resolveLocale() {
+        try {
+          const saved = localStorage.getItem(LOCALE_STORAGE_KEY);
+          if (saved === "zh" || saved === "en") return saved;
+        } catch {
+          // ignore
+        }
+        return detectBrowserLocale();
+      }
+
+      let locale = resolveLocale();
+
+      function t(key) {
+        return MESSAGES[locale][key] || MESSAGES.en[key] || key;
+      }
+
+      function applyDocumentLocale() {
+        document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
+      }
+
+      function applyStaticI18n() {
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (key) el.textContent = t(key);
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+          const key = el.getAttribute("data-i18n-aria");
+          if (key) el.setAttribute("aria-label", t(key));
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+          const key = el.getAttribute("data-i18n-alt");
+          if (key) el.setAttribute("alt", t(key));
+        });
+        const titleEl = document.querySelector("title[data-i18n]");
+        if (titleEl) titleEl.textContent = t("docTitle");
+      }
+
+      function updateLangButtons() {
+        document.querySelectorAll("#langSwitch button[data-lang]").forEach((btn) => {
+          const active = btn.getAttribute("data-lang") === locale;
+          btn.classList.toggle("active", active);
+          btn.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function setLocale(nextLocale) {
+        if (nextLocale !== "zh" && nextLocale !== "en") return;
+        if (nextLocale === locale) return;
+        locale = nextLocale;
+        try {
+          localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+        } catch {
+          // ignore
+        }
+        applyDocumentLocale();
+        applyStaticI18n();
+        updateLangButtons();
+      }
+
+      document.querySelectorAll("#langSwitch button[data-lang]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          setLocale(btn.getAttribute("data-lang") || "en");
+        });
+      });
+
+      applyDocumentLocale();
+      applyStaticI18n();
+      updateLangButtons();
+    </script>
+  </body>
+</html>
